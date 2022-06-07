@@ -49,12 +49,14 @@ function evaluateTypescriptFiles(filename: string): string {
       run(module, tempfileStream);
     } catch (err) {
       tempfile.removeCallback();
-      process.stderr.write(`Caught error while evaluating ${filename}: ${err}`);
+      process.stderr.write(
+        `Caught error while evaluating ${filename}: ${err}\n`
+      );
       process.exit(1);
     }
     return tempfile.name;
   } else {
-    process.stderr.write(`Error: ${filename} does not export generate()`);
+    process.stderr.write(`Error: ${filename} does not export generate()\n`);
     process.exit(1);
   }
 }
