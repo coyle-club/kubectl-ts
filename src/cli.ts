@@ -47,7 +47,6 @@ function evaluateTypescriptFiles(filename: string): string {
 
     try {
       run(module, tempfileStream);
-      process.stderr.write(`${filename} -> ${tempfile.name}`);
     } catch (err) {
       tempfile.removeCallback();
       process.stderr.write(`Caught error while evaluating ${filename}: ${err}`);
