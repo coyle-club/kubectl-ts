@@ -1,3 +1,0 @@
-#!/bin/bash -euo pipefail
-
-exec kubectl apply $(node $(dirname $0)/../lib/cli.js $@)

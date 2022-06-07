@@ -1,11 +1,10 @@
 {
-  "name": "kube-apply-ts",
+  "name": "kubectl-apply-ts",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "command": "bin/kube-apply-ts"
   },
   "keywords": [],
   "author": "",
@@ -22,5 +21,5 @@
     "@types/tmp": "^0.2.3",
     "typescript": "^4.7.3"
   },
-  "bin": "bin/kube-apply-ts"
+  "bin": "bin/kubectl-apply-ts"
 }
