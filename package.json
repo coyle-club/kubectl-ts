@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "lint": "eslint src --ext .ts"
   },
   "keywords": [],
   "author": "",
@@ -19,7 +20,10 @@
   "devDependencies": {
     "@types/shell-escape": "^0.2.0",
     "@types/tmp": "^0.2.3",
-    "typescript": "^4.7.3"
+    "typescript": "^4.7.3",
+    "@typescript-eslint/eslint-plugin": "^5.27.0",
+    "@typescript-eslint/parser": "^5.27.0",
+    "eslint": "^8.17.0"
   },
   "bin": "bin/kubectl-apply-ts"
 }

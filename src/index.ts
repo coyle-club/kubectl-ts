@@ -2,7 +2,7 @@ import YAML from 'yaml';
 import { Model } from '@kubernetes-models/base';
 
 export interface ManifestGenerator {
-  generate(): Array<Model<any>>;
+  generate(): Array<Model<unknown>>;
 }
 
 export function isManifestGenerator(
