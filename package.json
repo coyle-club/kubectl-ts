@@ -1,5 +1,5 @@
 {
-  "name": "kubectl-apply-ts",
+  "name": "kubectl-ts",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -24,5 +24,5 @@
     "@typescript-eslint/parser": "^5.27.0",
     "eslint": "^8.17.0"
   },
-  "bin": "bin/kubectl-apply-ts"
+  "bin": "bin/kubectl-ts"
 }

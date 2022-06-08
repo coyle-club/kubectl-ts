@@ -1,0 +1,10 @@
+#!/bin/bash -euo pipefail
+
+for arg in $@; do
+    if [[ $arg == "-f" || $arg == "--filename" ]]; then
+        args=$(node $(dirname $(readlink -f $0))/../lib/cli.js $@)
+        exec kubectl $args
+    fi
+done
+
+exec kubectl $@
