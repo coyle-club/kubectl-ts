@@ -17,13 +17,20 @@ const registerOnce = (() => {
 
 function mapOptionValues(
   args: string[],
-  optionName: string,
+  optionNames: string[],
   callback: (arg: string) => string
 ): string[] {
   let insideOption = false;
+  const optionNameSet: Record<string, boolean> = optionNames.reduce(
+    (state, optionName) => {
+      state[optionName] = true;
+      return state;
+    },
+    {} as Record<string, boolean>
+  );
   return args.map((arg) => {
     if (arg[0] === '-') {
-      insideOption = arg === optionName;
+      insideOption = optionNameSet[arg];
       return arg;
     } else {
       return insideOption ? callback(arg) : arg;
@@ -31,7 +38,7 @@ function mapOptionValues(
   });
 }
 
-function evaluateTypescriptFiles(filename: string): string {
+function evaluate(filename: string): string {
   if (!filename.endsWith('.ts')) {
     return filename;
   }
@@ -64,7 +71,7 @@ function evaluateTypescriptFiles(filename: string): string {
 function cli() {
   process.stdout.write(
     shellescape(
-      mapOptionValues(process.argv.slice(2), '-f', evaluateTypescriptFiles)
+      mapOptionValues(process.argv.slice(2), ['-f', '--filename'], evaluate)
     )
   );
 }
