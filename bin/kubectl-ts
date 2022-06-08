@@ -8,4 +8,4 @@ for arg in $args; do
     fi
 done
 
-exec kubectl $args
+exec ${KUBECTL_BIN:-kubectl} $args
