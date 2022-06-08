@@ -1,9 +1,9 @@
 import tmp from 'tmp';
 import { run, isManifestGenerator } from './index';
-import { createWriteStream } from 'fs';
+import { createWriteStream, existsSync } from 'fs';
 import shellescape from 'shell-escape';
-import path from 'path';
 import { register } from 'ts-node';
+import path from 'path';
 
 const registerOnce = (() => {
   let registered = false;
@@ -43,37 +43,41 @@ function evaluate(filename: string): string {
     return filename;
   }
 
+  filename = path.isAbsolute(filename)
+    ? filename
+    : path.join(process.cwd(), filename);
+
+  if (!existsSync(filename)) {
+    throw new Error(`${filename} does not exist`);
+  }
+
   registerOnce();
+
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const module = require(path.join(process.cwd(), filename));
+  const module = require(filename);
 
   if (isManifestGenerator(module)) {
     const tempfile = tmp.fileSync();
 
-    const tempfileStream = createWriteStream(tempfile.name);
+    run(filename, module, createWriteStream(tempfile.name));
 
-    try {
-      run(module, tempfileStream);
-    } catch (err) {
-      tempfile.removeCallback();
-      process.stderr.write(
-        `Caught error while evaluating ${filename}: ${err}\n`
-      );
-      process.exit(1);
-    }
     return tempfile.name;
   } else {
-    process.stderr.write(`Error: ${filename} does not export generate()\n`);
-    process.exit(1);
+    throw new Error(`${filename} does not export generate()`);
   }
 }
 
 function cli() {
-  process.stdout.write(
-    shellescape(
-      mapOptionValues(process.argv.slice(2), ['-f', '--filename'], evaluate)
-    )
-  );
+  try {
+    process.stdout.write(
+      shellescape(
+        mapOptionValues(process.argv.slice(2), ['-f', '--filename'], evaluate)
+      )
+    );
+  } catch (err) {
+    process.stderr.write(`${err}\n`);
+    process.exit(1);
+  }
 }
 
 cli();

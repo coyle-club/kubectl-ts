@@ -37,6 +37,7 @@ export function isManifestGenerator(
 }
 
 export function run(
+  filename: string,
   generator: ManifestGenerator,
   writer?: NodeJS.WritableStream
 ) {
@@ -46,7 +47,11 @@ export function run(
     const object = objects[i];
     if (!isKubernetesObject(object)) {
       throw new Error(
-        `Object ${i} from generator ${generator} is not shaped like a Kubernetes object`
+        `Object from ${filename} is not shaped like a Kubernetes object:\n${JSON.stringify(
+          object,
+          null,
+          2
+        )}`
       );
     }
     w.write(
