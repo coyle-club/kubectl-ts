@@ -24,10 +24,10 @@ function mapOptionValues(
   return args.map((arg) => {
     if (arg[0] === '-') {
       insideOption = arg === optionName;
-    } else if (insideOption) {
-      return callback(arg);
+      return arg;
+    } else {
+      return insideOption ? callback(arg) : arg;
     }
-    return arg;
   });
 }
 
