@@ -9,7 +9,9 @@ const registerOnce = (() => {
   let registered = false;
   return () => {
     if (!registered) {
-      register();
+      register({
+        transpileOnly: true
+      });
     }
     registered = true;
   };
@@ -39,7 +41,7 @@ function mapOptionValues(
 }
 
 function evaluate(filename: string): string {
-  if (!filename.endsWith('.ts')) {
+  if (!(filename.endsWith('.ts') || filename.endsWith('.js'))) {
     return filename;
   }
 
